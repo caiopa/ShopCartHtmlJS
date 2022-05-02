@@ -94,8 +94,8 @@ btnLimpar.addEventListener('click', limpar);
 /* 4 */
 
 const recarregar = () => {
-  pegarCarrinho.addEventListener('click', cartItemClickListener);
   pegarCarrinho.innerHTML = getSavedCartItems();
+  pegarCarrinho.addEventListener('click', cartItemClickListener);
 };
 
 window.onload = async () => {
