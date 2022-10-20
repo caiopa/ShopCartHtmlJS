@@ -25,28 +25,48 @@ function createProductItemElement({ sku, name, image }) {
 
   return section;
 }
-
-function getSkuFromProductItem(item) {
+/* 
+ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
-
+ */
 /* remover item lista */
 const cartItemClickListener = (event) => {
   event.target.remove();
   saveCartItems(pegarCarrinho.innerHTML);
 };
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ image, sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  
+  li.appendChild(createProductImageElement(image));
   li.addEventListener('click', cartItemClickListener);
+  
   return li;
 }
+/* ex 7  */
+
+const carregando = () => {
+  const localLoading = document.querySelector('.cart');
+  const elemento = document.createElement('p');
+  
+  elemento.className = 'loading';
+  elemento.innerText = 'Carregando...';
+
+  localLoading.appendChild(elemento);
+};
+
+const tirarCarregando = () => {
+  const carregar = document.querySelector('.loading');
+  carregar.remove();
+};
 
 /* ex1 */
 
 const criandoItems = async () => {
+  carregando();
   const json = await fetchProducts();
   const jsonResults = await json.results;
   
@@ -56,9 +76,10 @@ const criandoItems = async () => {
     const pegandoDivPai = document.querySelector('.items');
     pegandoDivPai.appendChild(secItem);
   });
+  tirarCarregando();
 };
 
-/* ex2 */
+/* ex2 + carregando */
 
 const addItems = () => {
   const Button = document.querySelectorAll('.item__add');
@@ -66,15 +87,14 @@ const addItems = () => {
     b.addEventListener('click', async () => {
       const pegarID = b.parentNode.firstChild.innerText;
       const result = await fetchItem(pegarID);
-      const { id: sku, title: name, price: salePrice } = result;
-
+      const { thumbnail: image, id: sku, title: name, price: salePrice } = result;
       const secItem = createCartItemElement({ 
+        image,
         sku, 
         name, 
         salePrice,
       });
       pegarCarrinho.appendChild(secItem);
-    
       saveCartItems(pegarCarrinho.innerHTML);
     });
   });
@@ -98,9 +118,20 @@ const recarregar = () => {
   pegarCarrinho.addEventListener('click', cartItemClickListener);
 };
 
+/* inventando moda  */
+/* 
+const modalCarrinho = () => {
+  const buttonCart = document.querySelector('.container-cartTitle');
+  const carrinho = document.querySelector('.cart');
+  buttonCart.addEventListener('click', () => {
+    carrinho.removeAttribute('hidden');
+  });
+};
+modalCarrinho(); */
+
 window.onload = async () => {
   await criandoItems();
   addItems(); 
   recarregar();
-  getSavedCartItems();
+  getSavedCartItems();  
 };

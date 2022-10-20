@@ -85,6 +85,8 @@ body {
 
 .items {
   display: flex;
+  overflow-y: scroll;
+  max-height: 800px;
   flex-basis: 70%;
   flex-wrap: wrap;
   justify-content: center;
@@ -133,11 +135,16 @@ body {
   flex-flow: column wrap;
   background-color: rgb(241, 241, 238);
   height: 100vh;
+  
 }
+
 
 .cart .cart__items {
   height: 500px;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 }
 
 .empty-cart {
@@ -146,4 +153,17 @@ body {
   margin: 0 auto;
   border: 2px solid rgb(5, 52, 219);
   background-color: rgb(249, 249, 246);
+}
+
+.cart__item {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.item__image {
+  display: flex;
+  border-radius: 10px;
+
+  
 }
